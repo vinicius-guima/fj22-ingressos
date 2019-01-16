@@ -41,13 +41,13 @@ public class SessaoController {
 		ModelAndView modelAndView = new ModelAndView("sessao/sessao");
 
 		modelAndView.addObject("sala", salaDao.findOne(salaId));
-		modelAndView.addObject("filme", filmeDao.findAll());
+		modelAndView.addObject("filmes", filmeDao.findAll());
 		modelAndView.addObject("form", form);
 
 		return modelAndView;
 	}
 	
-	@PostMapping(value = "/adimin/sessao")
+	@PostMapping(value = "/admin/sessao")
 	@Transactional
 	public ModelAndView salva(@Valid SessaoForm form, BindingResult result) {
 		
@@ -58,6 +58,7 @@ public class SessaoController {
 		List<Sessao>sessoesDaSala = sessaoDao.buscaSessoesDaSala(sessao.getSala());
 		
 		GerenciadorDeSessao gerenciador = new GerenciadorDeSessao(sessoesDaSala);
+		
 		if(gerenciador.cabe(sessao)) {
 		sessaoDao.save(sessao);
 		return new ModelAndView("redirect:/admin/sala/" + form.getSalaId() + "/sessoes");
