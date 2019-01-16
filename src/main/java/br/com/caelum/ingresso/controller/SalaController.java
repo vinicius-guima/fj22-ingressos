@@ -89,6 +89,6 @@ public class SalaController {
     @ResponseBody
     @Transactional
     public void delete(@PathVariable("id") Integer id){
-		salaDao.delete(id);
-	}
+        salaDao.delete(id);
+    }
 }
