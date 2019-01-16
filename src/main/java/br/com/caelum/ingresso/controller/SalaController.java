@@ -1,6 +1,7 @@
 package br.com.caelum.ingresso.controller;
 
 import br.com.caelum.ingresso.dao.SalaDao;
+import br.com.caelum.ingresso.dao.SessaoDao;
 import br.com.caelum.ingresso.model.Sala;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class SalaController {
 
     @Autowired
     private SalaDao salaDao;
+    
+    @Autowired
+    private SessaoDao sessaoDao;
 
 
     @GetMapping({"/admin/sala", "/admin/sala/{id}"})
@@ -34,9 +38,6 @@ public class SalaController {
 
         return modelAndView;
     }
-
-
-
 
     @PostMapping("/admin/sala")
     @Transactional
@@ -66,6 +67,7 @@ public class SalaController {
         Sala sala = salaDao.findOne(id);
 
         ModelAndView view = new ModelAndView("sessao/lista");
+        view.addObject("sessoes", sessaoDao.buscaSessoesDaSala(sala));
         view.addObject("sala", sala);
 
         return view;
@@ -87,6 +89,6 @@ public class SalaController {
     @ResponseBody
     @Transactional
     public void delete(@PathVariable("id") Integer id){
-        salaDao.delete(id);
-    }
+		salaDao.delete(id);
+	}
 }
